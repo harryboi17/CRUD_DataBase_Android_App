@@ -67,7 +67,15 @@ public class DataBase extends AppCompatActivity {
 
                 Object item = adapterView.getItemAtPosition(i);
                 String value = item.toString();
-                int idx = (value.charAt(0) - '0');
+
+                int k = 0;
+                int idx = 0;
+                while(value.charAt(k) != '.'){
+                    idx = idx*10;
+                    idx += (value.charAt(k) - '0');
+                    k++;
+                }
+                final int index = idx;
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -75,13 +83,13 @@ public class DataBase extends AppCompatActivity {
                         Toast.makeText(DataBase.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                         switch (menuItem.getItemId()){
                             case R.id.delete:
-                                db.deleteContactbyID(idx);
+                                db.deleteContactbyID(index);
                                 Contacts.remove(i);
                                 arrayAdapter.notifyDataSetChanged();
                                 return true;
                             case R.id.reset:
                                 Intent intent1 = new Intent(DataBase.this, Update.class);
-                                intent1.putExtra("idx", idx);
+                                intent1.putExtra("idx", index);
                                 startActivity(intent1);
 //
 //                                Intent intent2 = getIntent();
